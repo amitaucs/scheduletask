@@ -1,0 +1,16 @@
+---
+
+server:
+  port: 8002
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mutualFund
+    username: root
+    password: root
+security:
+  basic:
+    enabled: false
+mutualfund:
+  filename: mfnav.txt
+  url: http://localhost:8002/dbread/getAllMutualFund

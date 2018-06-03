@@ -2,6 +2,7 @@ package com.developerworld.dbread.scheduler;
 
 import com.developerworld.dbread.utils.FileWrittingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,6 +24,9 @@ public class DbReadScheduler {
 
     @Autowired
     FileWrittingUtils task;
+
+    @Value(value = "${mutualfund.execution-time-difference}")
+    private Integer timeInterval;
 
 
 
@@ -54,7 +58,7 @@ public class DbReadScheduler {
         ZonedDateTime zonedNow = ZonedDateTime.of(localNow, currentZone);
         ZonedDateTime zonedNextTarget = zonedNow.withHour(targetHour).withMinute(targetMin).withSecond(targetSec);
         if(zonedNow.compareTo(zonedNextTarget) > 0)
-            zonedNextTarget = zonedNow.plusMinutes(2);
+            zonedNextTarget = zonedNow.plusMinutes(timeInterval);
 
         Duration duration = Duration.between(zonedNow, zonedNextTarget);
         return duration.getSeconds();
